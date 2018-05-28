@@ -1,0 +1,121 @@
+---
+title: "Lab 1_EDA_Tsung-Chin Han"
+author: "Han, Tsung-Chin"
+date: "May 25, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Backgroud 
+
+Imagine that you have been hired by the World Bank to study the effect of cultural norms and legal enforcement in controlling corruption by analyzing the parking behavior of United Nations ocials in Manhattan. Until 2002, diplomatic immunity protected UN diplomats from parking enforcement ac-
+tions, so diplomats actions were constrained by cultural norms alone. In 2002, enforcement authorities acquired the right to conscate diplomatic license plates of violators, after which diplomatic behavior was constrained by both cultural norms and the legal penalties of unpaid tickets.
+
+# Data
+
+You are given a dataset for a selection of UN diplomatic missions, Corrupt.R. The dependent (or target) variable in this data is named violations.
+
+The labels of some of the variables are listed below; the rest of the variables should be self-explanatory.
+
+(1) corruption: Country corruption index, 1998
+(2) violations: Unpaid New York City parking violations
+(3) trade: total trade with the United States (1998 US$)
+
+# Objective
+
+The World Bank would like to know what if any relationship there is between corruption and parking violations both pre and post 2002 and if there are any other relevant explanatory variables.
+
+# Setup
+
+Setup the working directory and load the given file and library.
+
+```{r}
+
+getwd()
+setwd("C:/Users/Ken/Desktop/UC Berkeley MIDS/4 - 2018 Summer/5 - Statistics for Data Science/lab/1")
+getwd()
+
+#load library
+library(car)
+#load the data and rename data for analysis
+load("Corrupt.Rdata")
+Data<-FMcorrupt
+
+```
+
+# Data Selection
+
+### We know we have 364 obersvation and 28 variables. Data type includes floating numbers, integer, and charecter.
+
+```{r}
+
+View(Data) #brifely check what the data looks like 
+
+#Dimension of data and obersvation
+dim(Data)
+str(Data)
+
+```
+
+```{r}
+
+summary(Data$violations)
+summary(Data$corruption)
+summary(Data$prepost)
+
+```
+
+### Given the questions, the data can be diveided into pre and post 2002.
+### both pre and post 2002 data have 151 observations. 
+
+```{r}
+#pre 2002 dataset
+pre_Data<-subset(Data, prepost == "pre")
+nrow(pre_Data)
+summary(pre_Data)
+
+#post 2002 dataset
+post_Data<-subset(Data, prepost == "pos")
+nrow(post_Data)
+summary(post_Data)
+
+```
+### looking at each subsets, we note there are some missing values. corruption index has no missing values, whereas violations have two missing values. This is reasonably small fraction of our cases.
+
+# Exploratory Analysis
+
+### We begin the scatterplot matrix.We want to get a high level overview.
+```{r}
+#pre 2002
+scatterplotMatrix(~ violations+ corruption+ trade+ fines+ gdppcus1998,
+                  data = pre_Data,
+                  diagonal=list(method="histogram", breaks="FD"),
+                  main = "Scatterplot Matrix for Key Variables")
+```
+```{r}
+cor(pre_Data$violations, pre_Data$corruption, use="complete.obs")
+cor(pre_Data$violations, pre_Data$fines, use="complete.obs")
+```
+```{r}
+#post 2002
+scatterplotMatrix(~ violations+ corruption+ trade+ fines, 
+                  data = post_Data,
+                  diagonal=list(method="histogram", breaks="FD"),
+                  main = "Scatterplot Matrix for Key Variables")
+```
+## form the above, we can know some features that can guide us litter further:
+### 1. 
+
+
+
+
+
+
+
+
+
+
+
